@@ -1,13 +1,17 @@
 #!/usr/bin/python3
 
+import configparser
 from datetime import datetime, timedelta
 
 from station import Station, StationNetwork
 from seismogram import Seismogram
 from save_strategies import FileSaveStrategy
 
-COLOR_YESTERDAY = '#cccccc'
-COLOR_TODAY = '#dd3344'
+config = configparser.ConfigParser()
+config.read('config.ini')
+
+COLOR_YESTERDAY = config.get('colors', 'YESTERDAY')
+COLOR_TODAY = config.get('colors', 'TODAY')
 
 def main():
     now = datetime.now()
