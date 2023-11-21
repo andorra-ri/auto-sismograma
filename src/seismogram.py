@@ -72,5 +72,5 @@ class Seismogram:
         copy = f"© {datetime.now().year} Andorra Recerca + Innovació. Tots els drets reservats."
         self.plot.text(1, -0.1, copy, ha='right', transform=self.plot.gca().transAxes, fontsize=10)
 
-    def save(self, save_strategy: SaveStrategy):
-        save_strategy.save(self.plot)
+    def save(self, name: str, save_strategy: SaveStrategy):
+        save_strategy.save(name, self.plot)

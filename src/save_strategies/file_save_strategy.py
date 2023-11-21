@@ -7,5 +7,6 @@ class FileSaveStrategy(SaveStrategy):
     def __init__(self, path: str):
         self.path = path
 
-    def save(self, plot: Any):
-        plot.savefig(self.path)
+    def save(self, name: str, plot: Any):
+        path = f'{self.path}{name}'
+        plot.savefig(path)

@@ -25,12 +25,13 @@ def main():
         amplification=80000
     )
 
-    path = f'./data/{station.name}.{datetime.now().strftime("%Y%m%d")}.png'
-    save_strategy = FileSaveStrategy(path)
+    save_strategy = FileSaveStrategy('./data/')
 
     seismogram = Seismogram(station)
     seismogram.create(start_time=yesterday, end_time=now, colors=(COLOR_YESTERDAY, COLOR_TODAY))
-    seismogram.save(save_strategy)
+
+    filename = f'{station.name}.{datetime.now().strftime("%Y%m%d")}.png'
+    seismogram.save(filename, save_strategy)
 
 if __name__ == '__main__':
     main()

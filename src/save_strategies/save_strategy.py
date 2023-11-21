@@ -3,5 +3,5 @@ from typing import Any
 
 class SaveStrategy(ABC):
     @abstractmethod
-    def save(self, plot: Any):
+    def save(self, name: str, plot: Any):
         pass
