@@ -1,1 +1,3 @@
 obspy
+python-dotenv
+storage3
