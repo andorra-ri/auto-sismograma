@@ -1,3 +1,4 @@
 obspy
 python-dotenv
 storage3
+toml

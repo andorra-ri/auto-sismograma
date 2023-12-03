@@ -1,9 +1,9 @@
 #!/usr/bin/python3
 
 import os
-import configparser
 from datetime import datetime, timedelta
 from dotenv import load_dotenv # pylint: disable=import-error
+import toml # pylint: disable=import-error
 
 from station import Station
 from seismogram import Seismogram
@@ -11,26 +11,23 @@ from save_strategies import SupabaseSaveStrategy
 
 load_dotenv()
 
-config = configparser.ConfigParser()
-config.read('config.ini')
-
-SUPABASE_BUCKET = config.get('supabase', 'BUCKET')
-COLOR_YESTERDAY = config.get('colors', 'YESTERDAY')
-COLOR_TODAY = config.get('colors', 'TODAY')
+config = toml.load('config.toml')
 
 def main(stations):
     now = datetime.now()
     yesterday = now - timedelta(days=1)
 
+    colors = (config['colors']['YESTERDAY'], config['colors']['TODAY'])
+
     to_supabase = SupabaseSaveStrategy(
         supabase_id=os.environ['SUPABASE_ID'],
         token=os.environ['SUPABASE_TOKEN'],
-        bucket=SUPABASE_BUCKET,
+        bucket=config['supabase']['BUCKET'],
     )
 
     for station in stations:
         seismogram = Seismogram(station)
-        seismogram.create(start_time=yesterday, end_time=now, colors=(COLOR_YESTERDAY, COLOR_TODAY))
+        seismogram.create(start_time=yesterday, end_time=now, colors=colors)
 
         filename = f'{station.name}.{datetime.now().strftime("%Y%m%d")}.png'
         seismogram.save(filename, to_supabase)
@@ -41,6 +38,6 @@ def main(stations):
 
 if __name__ == '__main__':
 
-    pand = Station.from_dict(dict(config.items('PAND')))
+    pand = Station.from_dict(config['stations']['PAND'])
 
     main([pand])
