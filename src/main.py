@@ -5,7 +5,7 @@ import configparser
 from datetime import datetime, timedelta
 from dotenv import load_dotenv # pylint: disable=import-error
 
-from station import Station, StationNetwork
+from station import Station
 from seismogram import Seismogram
 from save_strategies import SupabaseSaveStrategy
 
@@ -41,12 +41,6 @@ def main(stations):
 
 if __name__ == '__main__':
 
-    pand = Station(
-        name='PAND',
-        network=StationNetwork.FR,
-        location='00',
-        channel='HHZ',
-        amplification=80000
-    )
+    pand = Station.from_dict(dict(config.items('PAND')))
 
     main([pand])

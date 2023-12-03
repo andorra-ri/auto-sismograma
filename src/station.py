@@ -12,4 +12,9 @@ class Station:
     channel: str
     amplification: int
     location: str = ''
-    
+
+    @classmethod
+    def from_dict(cls, data: dict):
+        data['network'] = StationNetwork[data['network']]
+        data['amplification'] = int(data['amplification'])
+        return cls(**data)
