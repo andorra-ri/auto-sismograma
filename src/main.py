@@ -18,17 +18,9 @@ SUPABASE_BUCKET = config.get('supabase', 'BUCKET')
 COLOR_YESTERDAY = config.get('colors', 'YESTERDAY')
 COLOR_TODAY = config.get('colors', 'TODAY')
 
-def main():
+def main(stations):
     now = datetime.now()
     yesterday = now - timedelta(days=1)
-
-    station = Station(
-        name='PAND',
-        network=StationNetwork.FR,
-        location='00',
-        channel='HHZ',
-        amplification=80000
-    )
 
     to_supabase = SupabaseSaveStrategy(
         supabase_id=os.environ['SUPABASE_ID'],
@@ -36,14 +28,25 @@ def main():
         bucket=SUPABASE_BUCKET,
     )
 
-    seismogram = Seismogram(station)
-    seismogram.create(start_time=yesterday, end_time=now, colors=(COLOR_YESTERDAY, COLOR_TODAY))
+    for station in stations:
+        seismogram = Seismogram(station)
+        seismogram.create(start_time=yesterday, end_time=now, colors=(COLOR_YESTERDAY, COLOR_TODAY))
 
-    filename = f'{station.name}.{datetime.now().strftime("%Y%m%d")}.png'
-    seismogram.save(filename, to_supabase)
+        filename = f'{station.name}.{datetime.now().strftime("%Y%m%d")}.png'
+        seismogram.save(filename, to_supabase)
 
-    filename = f'{station.name}.latest.png'
-    seismogram.save(filename, to_supabase)
+        filename = f'{station.name}.latest.png'
+        seismogram.save(filename, to_supabase)
+
 
 if __name__ == '__main__':
-    main()
+
+    pand = Station(
+        name='PAND',
+        network=StationNetwork.FR,
+        location='00',
+        channel='HHZ',
+        amplification=80000
+    )
+
+    main([pand])
