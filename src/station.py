@@ -8,6 +8,7 @@ class StationNetwork(Enum):
 @dataclass
 class Station:
     name: str
+    client: str
     network: StationNetwork
     channel: str
     amplification: int

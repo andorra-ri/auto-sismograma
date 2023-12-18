@@ -16,7 +16,7 @@ class Seismogram:
     plot: Any
 
     def __init__(self, station: Station):
-        self.client = Client("RESIF")
+        self.client = Client(station.client)
         self.station = station
 
     def create(
