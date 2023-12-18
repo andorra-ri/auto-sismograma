@@ -39,5 +39,7 @@ def main(stations):
 if __name__ == '__main__':
 
     pand = Station.from_dict(config['stations']['PAND'])
+    scol = Station.from_dict(config['stations']['SCOL'])
+    arbs = Station.from_dict(config['stations']['ARBS'])
 
-    main([pand])
+    main([pand, scol, arbs])

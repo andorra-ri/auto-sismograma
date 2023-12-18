@@ -9,7 +9,24 @@ TODAY = "#dd3344"
 
   [stations.PAND]
   name="PAND"
+  client="RESIF"
   network="FR"
   location="00"
   channel="HHZ"
   amplification=80000
+
+  [stations.SCOL]
+  name="SCOL"
+  client="ICGC"
+  network="CA"
+  location=""
+  channel="HNZ"
+  amplification=8000
+
+  [stations.ARBS]
+  name="ARBS"
+  client="ICGC"
+  network="CA"
+  location=""
+  channel="HHZ"
+  amplification=1000
