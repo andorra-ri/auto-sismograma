@@ -29,9 +29,6 @@ def main(stations):
         seismogram = Seismogram(station)
         seismogram.create(start_time=yesterday, end_time=now, colors=colors)
 
-        filename = f'{station.name}.{datetime.now().strftime("%Y%m%d")}.png'
-        seismogram.save(filename, to_supabase)
-
         filename = f'{station.name}.latest.png'
         seismogram.save(filename, to_supabase)
 
