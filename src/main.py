@@ -11,9 +11,9 @@ from save_strategies import SupabaseSaveStrategy
 
 load_dotenv()
 
-config = toml.load('config.toml')
+def main():
+    config = toml.load('config.toml')
 
-def main(stations):
     now = datetime.now()
     yesterday = now - timedelta(days=1)
 
@@ -25,7 +25,9 @@ def main(stations):
         bucket=config['supabase']['BUCKET'],
     )
 
-    for station in stations:
+    for options in config['stations'].values():
+        station = Station.from_dict(options)
+
         seismogram = Seismogram(station)
         seismogram.create(start_time=yesterday, end_time=now, colors=colors)
 
@@ -34,9 +36,4 @@ def main(stations):
 
 
 if __name__ == '__main__':
-
-    pand = Station.from_dict(config['stations']['PAND'])
-    scol = Station.from_dict(config['stations']['SCOL'])
-    arbs = Station.from_dict(config['stations']['ARBS'])
-
-    main([pand, scol, arbs])
+    main()
