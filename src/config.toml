@@ -2,8 +2,8 @@
 BUCKET = "seismograms"
 
 [colors]
-YESTERDAY = "#cccccc"
-TODAY = "#dd3344"
+YESTERDAY = "#a3abbd"
+TODAY = "#802644"
 
 [stations]
 
