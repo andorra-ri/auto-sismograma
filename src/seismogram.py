@@ -55,10 +55,10 @@ class Seismogram:
         self.plot = channel.plot(
             type='dayplot',
             size=(width, height),
-            title=f'Últimes 24h: {period}  |  {channel[0].id} {high_pass} - {amplification}',
+            title=f'Andorra Recerca + Innovació · Últimes 24h: {period}  |  {channel[0].id} {high_pass} - {amplification}',
             starttime=start_bound,
             endtime=end_bound,
-            title_size=14,
+            title_size=13,
             x_labels_size=12,
             y_labels_size=12,
             one_tick_per_line=True,
