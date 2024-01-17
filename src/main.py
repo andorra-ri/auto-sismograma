@@ -34,6 +34,8 @@ def main():
         filename = f'{station.name}.latest.png'
         seismogram.save(filename, to_supabase)
 
+    print(f"Created seismograms at {now.strftime('%d/%m/%Y %H:%M')}")
+
 
 if __name__ == '__main__':
     main()

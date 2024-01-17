@@ -2,6 +2,8 @@ version: '3.8'
 
 services:
   sismes:
+    container_name: sismes
+    privileged: true
     build:
       context: .
       dockerfile: Dockerfile
