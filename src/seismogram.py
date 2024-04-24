@@ -7,8 +7,6 @@ from obspy.core import UTCDateTime # pylint: disable=import-error
 from station import Station
 from save_strategies import SaveStrategy
 
-from utils import put_copyright
-
 class Seismogram:
     TAPER_MAX_PERCENT = 0.05
     WAVE_FILTER_HZ = 2
@@ -70,8 +68,8 @@ class Seismogram:
             vertical_scaling_range=self.station.amplification,
             interval=interval,
         )
-        copy = put_copyright(self.station.name)
-        #copy = f"© {datetime.now().year} Andorra Recerca + Innovació. Tots els drets reservats."
+
+        copy = f"© {datetime.now().year} Andorra Recerca + Innovació. Tots els drets reservats."
         self.plot.text(1, -0.1, copy, ha='right', transform=self.plot.gca().transAxes, fontsize=10)
 
     def save(self, name: str, save_strategy: SaveStrategy):
