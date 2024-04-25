@@ -2,3 +2,4 @@ obspy
 python-dotenv
 storage3
 toml
+scipy==1.11.3
