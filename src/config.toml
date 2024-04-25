@@ -13,7 +13,7 @@ TODAY = "#802644"
   network="FR"
   location="00"
   channel="HHZ"
-  amplification=80000
+  amplification=500000
 
   [stations.SCOL]
   name="SCOL"
@@ -28,5 +28,5 @@ TODAY = "#802644"
   client="ICGC"
   network="CA"
   location=""
-  channel="HHZ"
+  channel="HH1"
   amplification=1000
