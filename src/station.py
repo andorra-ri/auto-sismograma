@@ -12,6 +12,7 @@ class Station:
     network: StationNetwork
     channel: str
     amplification: int
+    text_station: str
     location: str = ''
 
     @classmethod

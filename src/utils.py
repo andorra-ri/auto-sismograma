@@ -1,16 +1,14 @@
 from datetime import datetime
+from config_loader import get_config
 
+config = get_config()
 
-def put_copyright(station, time=str(datetime.now().year)):
-    """dfdd"""
-    if station == 'PAND':
-        text_station = "Pic de Padern (PAND). Dades: OMP."
+copyright_year = str(datetime.now().year)
 
-    elif station == 'SCOL':
-        text_station = "Santa Coloma (SCOL). Dades: ICGC."
+def put_copyright(station_text):
+    general_copyright = config['general']['COPYRIGHT']
 
-    else:
-        text_station = "La Rabassa (ARBS). Dades: ICGC."
+    copyright_text = f"{general_copyright} {copyright_year}"
 
-    text =  "{} Autor: AR+I©. Tots els drets reservats. ".format(text_station) + time
-    return text
+    return f"{station_text} {copyright_text}"
+

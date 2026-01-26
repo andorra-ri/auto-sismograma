@@ -70,8 +70,7 @@ class Seismogram:
             vertical_scaling_range=self.station.amplification,
             interval=interval,
         )
-        copy = put_copyright(self.station.name)
-        #copy = f"© {datetime.now().year} Andorra Recerca + Innovació. Tots els drets reservats."
+        copy = put_copyright(self.station.text_station)
         self.plot.text(1, -0.1, copy, ha='right', transform=self.plot.gca().transAxes, fontsize=10)
 
     def save(self, name: str, save_strategy: SaveStrategy):
