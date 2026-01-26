@@ -32,6 +32,9 @@ def main():
         bucket=config['supabase']['BUCKET'],
     )
 
+    '''FOR DEBUGGING IN LOCAL ENV'''
+    #to_local_file = FileSaveStrategy(path='/tmp/')
+
     for options in config['stations'].values():
         station = Station.from_dict(options)
 
