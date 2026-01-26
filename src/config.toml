@@ -1,6 +1,10 @@
 [general]
 COPYRIGHT = "Autor: AR+I ©. Tots els drets reservats."
 
+[metadata]
+AUTHOR = "Andorra Recerca + Innovació"
+COPYRIGHT = "© Copyright Andorra Recerca + Innovació"
+
 [supabase]
 BUCKET = "seismograms"
 
