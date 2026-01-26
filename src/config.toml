@@ -1,3 +1,6 @@
+[general]
+COPYRIGHT = "Autor: AR+I ©. Tots els drets reservats."
+
 [supabase]
 BUCKET = "seismograms"
 
