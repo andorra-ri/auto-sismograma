@@ -1,5 +1,6 @@
 from typing import Any
 from .save_strategy import SaveStrategy
+from utils import get_image_metadata
 
 class FileSaveStrategy(SaveStrategy):
     path: str
@@ -9,4 +10,5 @@ class FileSaveStrategy(SaveStrategy):
 
     def save(self, name: str, plot: Any):
         path = f'{self.path}{name}'
-        plot.savefig(path)
+
+        plot.savefig(path, metadata=get_image_metadata())

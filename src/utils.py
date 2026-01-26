@@ -39,3 +39,11 @@ def put_copyright(station_text):
 
     return f"{station_text} {copyright_text}"
 
+
+def get_image_metadata():
+    return {
+        'Author': config['metadata']['AUTHOR'],
+        'Copyright': config['metadata']['COPYRIGHT'],
+        'Software': 'auto-sismograma',
+        'Disclaimer': config['metadata']['COPYRIGHT']
+    }
