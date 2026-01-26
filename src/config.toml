@@ -21,6 +21,7 @@ TODAY = "#802644"
   location="00"
   channel="HHZ"
   amplification=2000
+  text_station="Pic de Padern (PAND). Dades: OMP."
 
   [stations.SCOL]
   name="SCOL"
@@ -29,6 +30,7 @@ TODAY = "#802644"
   location=""
   channel="HNZ"
   amplification=8000
+  text_station="Santa Coloma (SCOL). Dades: ICGC."
 
   [stations.ARBS]
   name="ARBS"
@@ -37,3 +39,4 @@ TODAY = "#802644"
   location=""
   channel="HH1"
   amplification=1000
+  text_station="La Rabassa (ARBS). Dades: ICGC."
