@@ -3,16 +3,23 @@
 import os
 from datetime import datetime, timedelta
 from dotenv import load_dotenv # pylint: disable=import-error
-import toml # pylint: disable=import-error
 
 from station import Station
 from seismogram import Seismogram
 from save_strategies import SupabaseSaveStrategy
+from save_strategies import FileSaveStrategy
+
+from config_loader import get_config
+
+from utils import check_toml_config, check_env_vars
 
 load_dotenv()
 
 def main():
-    config = toml.load('config.toml')
+    check_env_vars()
+
+    config = get_config()
+    check_toml_config(config)
 
     now = datetime.now()
     yesterday = now - timedelta(days=1)
