@@ -1,0 +1,24 @@
+name: Google Cloud Build Docker CI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Google Cloud credentials
+        uses: google-github-actions/auth@v2
+        with:
+          project_id: terratremols
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Submit Cloud Build
+        run: |
+          gcloud builds submit --config cloudbuild.yaml --async

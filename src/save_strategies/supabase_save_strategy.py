@@ -2,6 +2,7 @@
 from tempfile import NamedTemporaryFile
 from typing import Any
 from storage3 import create_client, SyncStorageClient # pylint: disable=import-error
+from utils import get_image_metadata
 from .save_strategy import SaveStrategy
 
 class SupabaseSaveStrategy(SaveStrategy):
@@ -19,7 +20,7 @@ class SupabaseSaveStrategy(SaveStrategy):
 
     def save(self, name: str, plot: Any):
         temp_file = NamedTemporaryFile(suffix='.png')
-        plot.savefig(temp_file.name, format='png')
+        plot.savefig(temp_file.name, metadata=get_image_metadata())
         with open(temp_file.name, 'rb') as file:
             files = self.client.from_(self.bucket).list()
             file_exists = next(filter(lambda x: x['name'] == name, files), None) is not None

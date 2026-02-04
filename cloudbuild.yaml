@@ -1,0 +1,72 @@
+substitutions:
+  _PROJECT_ID: "terratremols"
+  _ARTIFACT_REGISTRY_REPO: "auto-sismograma-repository"
+  _ARTIFACT_REGION: "europe-west9"
+  _JOB_REGION: "europe-west9"
+  _JOB_NAME: "auto-sismograma"
+  _SCHEDULER_NAME: "cron-auto-sismograma"
+  _SCHEDULER_DESCRIPTION: "Cron que automatitza la execucio del Job auto-sismograma"
+  _SCHEDULER_REGION: "europe-west1"
+  _SCHEDULER_CRON: "*/5 * * * *"
+  _SCHEDULER_TIMEZONE: "Europe/Madrid"
+  _SERVICE_ACCOUNT_EMAIL: "auto-sismograma@terratremols.iam.gserviceaccount.com"
+
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    entrypoint: 'bash'
+    args: ['-c', 'docker pull ${_ARTIFACT_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_ARTIFACT_REGISTRY_REPO}/auto-sismograma-image:latest || exit 0']
+
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [
+            'build',
+            '-t',
+            '${_ARTIFACT_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_ARTIFACT_REGISTRY_REPO}/auto-sismograma-image',
+            '--cache-from=${_ARTIFACT_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_ARTIFACT_REGISTRY_REPO}/auto-sismograma-image:latest',
+            '.'
+          ]
+
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [
+            'push',
+            '${_ARTIFACT_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_ARTIFACT_REGISTRY_REPO}/auto-sismograma-image'
+          ]
+
+  - name: google/cloud-sdk
+    args: [
+            'gcloud', 'run', 'jobs', 'deploy', 'auto-sismograma',
+             '--image=${_ARTIFACT_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_ARTIFACT_REGISTRY_REPO}/auto-sismograma-image',
+             '--region', '${_JOB_REGION}',
+             '--service-account=auto-sismograma@terratremols.iam.gserviceaccount.com',
+             '--set-secrets=SUPABASE_ID=auto-sismes-supabase-id:latest,SUPABASE_TOKEN=auto-sismes-supabase-token:latest',
+             '--memory=2Gi',
+             '--async'
+           ]
+
+  - name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    entrypoint: bash
+    args:
+      - -c
+      - |
+          set -e
+
+          COMMON_ARGS=(
+            --schedule="${_SCHEDULER_CRON}"
+            --uri="https://run.googleapis.com/v2/projects/${_PROJECT_ID}/locations/${_JOB_REGION}/jobs/${_JOB_NAME}:run"
+            --http-method=POST
+            --time-zone="${_SCHEDULER_TIMEZONE}"
+            --location="${_SCHEDULER_REGION}"
+            --description="${_SCHEDULER_DESCRIPTION}"
+            --oauth-service-account-email="${_SERVICE_ACCOUNT_EMAIL}"
+            --quiet
+          )
+
+          if ! gcloud scheduler jobs create http "${_SCHEDULER_NAME}" "${COMMON_ARGS[@]}" 2>/dev/null; then
+            echo "Job exists, updating..."
+            gcloud scheduler jobs update http "${_SCHEDULER_NAME}" "${COMMON_ARGS[@]}"
+          else
+            echo "Job created successfully"
+          fi
+
+
+images:
+  - ${_ARTIFACT_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_ARTIFACT_REGISTRY_REPO}/auto-sismograma-image
