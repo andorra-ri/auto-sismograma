@@ -39,12 +39,19 @@ def main():
         station = Station.from_dict(options)
 
         seismogram = Seismogram(station)
-        seismogram.create(start_time=yesterday, end_time=now, colors=colors)
 
-        filename = f'{station.name}.latest.png'
-        seismogram.save(filename, to_supabase)
+        try:
+            seismogram.create(start_time=yesterday, end_time=now, colors=colors)
 
-    print(f"Created seismograms at {now.strftime('%d/%m/%Y %H:%M')}")
+            filename = f'{station.name}.latest.png'
+            seismogram.save(filename, to_supabase)
+            print(f"Created seismogram for {station.name}\n\n")
+
+        except Exception as e:
+            print(f"Error creating seismograms for {station.name}")
+            print(e)
+
+    print(f"Execution completed at {now.strftime('%d/%m/%Y %H:%M')}")
 
 
 if __name__ == '__main__':
